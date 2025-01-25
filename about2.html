@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Museum Chennai</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FF9933;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .about-section {
+            padding: 20px;
+        }
+        .about-section h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 32%;
+            border-radius: 5px;
+        }
+        .about-content {
+            text-align: justify;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        footer {
+            background-color: #FF9933;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+       /* Chatbot Styles */
+        #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+#user-input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#send-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 40px; /* Increased padding for horizontal size */
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 30%; /* Alternatively, specify a width percentage or fixed width */
+}
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>About Museum</h1>
+</header>
+
+
+<section id="about" class="about-section">
+    <h1>About Government Museum Chennai</h1>
+    <div class="image-container">
+        <img src="cebtralabout1.jpeg" alt="NGMA Image 1">
+        <img src="centralabout2.jpeg" alt="NGMA Image 2">
+        <img src="centralabout3.jpeg" alt="NGMA Image 3">
+    </div>
+    <div class="about-content">
+        <p>
+          The proposal for a Museum in Egmore, Madras was mooted by the Madras Literary Society in 1846 AD and Sir Henry Pottinger, the then Governor, obtained the sanction of the Court of Directors of the East India Company in London.
+        </p>
+        <p>
+            n January 1851 AD, Dr. Edward Balfour, Medical Officer of the Governor's Body guard was appointed as the First Officer in charge of the Government Museum. The notification in the Fort St. George Gazetteer dated 29th April 1851 AD contained the first announcement regarding the opening of the Madras Government Museum...
+        </p>
+        <p>
+          Museum Theatre The 'Museum Theatre' is one of the heritage buildings in the Government Museum campus very much visible from the Pantheon Road, a rare example of the Indo-Saracenic mode of architecture. The theatre was built by the British in the year 1896 in the model of the then Globe Theatre in London.
+        </p>
+    </div>
+</section>
+
+<footer>
+    &copy; 2024 e Government Museum. All Rights Reserved.
+</footer>
+   <button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to Madras museum
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to the Madras museum! How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+</html>

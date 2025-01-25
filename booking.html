@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museum Ticket Booking</title>
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('booking.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .form-group button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        #ticketDetails {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #qrCodeCanvas {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+</head>
+
+<body>
+    <div class="form-container" id="formPage">
+        <h2>Museum Ticket Booking</h2>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="museum">Select Museum:</label>
+            <select id="museum" name="museum" onchange="enableDateSelection()" required>
+                <option value="">Select Museum</option>
+                <option value="National Gallery of Modern Art, New Delhi">National Gallery of Modern Art, New Delhi
+                </option>
+                <option value="Indian Museum, Kolkata">Indian Museum, Kolkata</option>
+                <option value="Madras Museum, Chennai">Madras Museum, Chennai</option>
+            </select>
+        </div>
+        <div class="form-group" id="dateGroup" style="display: none;">
+            <label for="visitDate">Select Date:</label>
+            <input type="date" id="visitDate" name="visitDate" onchange="validateFormInputs()" required>
+        </div>
+        <div class="form-group">
+            <label for="indian">Tickets For Indians:</label>
+            <input type="number" id="indian" name="indian" min="0" onchange="calculateTotalPrice()" required>
+        </div>
+        <div class="form-group">
+            <label for="foreigners">Tickets For Foreigners:</label>
+            <input type="number" id="foreigners" name="foreigners" min="0" onchange="calculateTotalPrice()" required>
+        </div>
+        <div class="form-group">
+            <label for="totalPrice">Total Price: ₹<span id="totalPrice">0</span></label>
+        </div>
+        <div class="form-group">
+            <button id="bookTicketButton" type="button" onclick="startRazorpayPayment()" disabled>Book Ticket</button>
+        </div>
+    </div>
+
+    <div id="ticketDetails" style="display: none;">
+        <h3>Ticket Details</h3>
+        <p><strong>Ticket Number:</strong> <span id="ticketNumber"></span></p>
+        <p><strong>Name:</strong> <span id="ticketName"></span></p>
+        <p><strong>Email:</strong> <span id="ticketEmail"></span></p>
+        <p><strong>Phone:</strong> <span id="ticketPhone"></span></p>
+        <p><strong>Museum:</strong> <span id="ticketMuseum"></span></p>
+        <p><strong>Date:</strong> <span id="ticketVisitDate"></span></p>
+        <p><strong>Indian Tickets:</strong> <span id="ticketIndian"></span></p>
+        <p><strong>Foreigner Tickets:</strong> <span id="ticketForeigners"></span></p>
+        <p><strong>Total Price:</strong> ₹<span id="ticketPrice"></span></p>
+        <p><strong>Payment ID:</strong> <span id="ticketPaymentId"></span></p>
+        <div id="qrCodeCanvas"></div>
+        <button onclick="downloadPDF()">Download Ticket Data</button>
+    </div>
+
+    <script>
+        const indianPrice = 50;
+        const foreignerPrice = 200;
+        let paymentId = "";
+        let uniqueTicketNumber = Math.floor(Math.random() * 1000000); // Generate a unique ticket number
+        let qrCodeUrl = ""; // Variable to store the QR code URL
+
+        function calculateTotalPrice() {
+            const numIndians = parseInt(document.getElementById('indian').value) || 0;
+            const numForeigners = parseInt(document.getElementById('foreigners').value) || 0;
+            const totalPrice = (numIndians * indianPrice) + (numForeigners * foreignerPrice);
+            document.getElementById('totalPrice').textContent = totalPrice;
+            validateFormInputs();
+        }
+
+        function enableDateSelection() {
+            const museum = document.getElementById('museum').value;
+            const dateGroup = document.getElementById('dateGroup');
+            if (museum) {
+                dateGroup.style.display = 'block';
+            } else {
+                dateGroup.style.display = 'none';
+                document.getElementById('visitDate').value = '';
+            }
+            validateFormInputs();
+        }
+
+        function validateFormInputs() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const museum = document.getElementById('museum').value;
+            const visitDate = document.getElementById('visitDate').value;
+            const indian = parseInt(document.getElementById('indian').value) || 0;
+            const foreigners = parseInt(document.getElementById('foreigners').value) || 0;
+
+            const isValid = name && email && phone && museum && visitDate && (indian > 0 || foreigners > 0);
+            document.getElementById('bookTicketButton').disabled = !isValid;
+        }
+
+        function startRazorpayPayment() {
+            const totalPrice = parseInt(document.getElementById('totalPrice').textContent) * 100;
+
+            const options = {
+                key: "your_payment_ api_ key",
+                amount: totalPrice,
+                currency: "INR",
+                name: "Museum Ticket Booking",
+                description: "Complete your ticket purchase",
+                handler: function (response) {
+                    paymentId = response.razorpay_payment_id;
+                    alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+                    generateQRCode(
+                        document.getElementById('name').value,
+                        document.getElementById('email').value,
+                        document.getElementById('phone').value,
+                        document.getElementById('museum').value,
+                        document.getElementById('visitDate').value,
+                        document.getElementById('indian').value,
+                        document.getElementById('foreigners').value,
+                        document.getElementById('totalPrice').textContent
+                    );
+                },
+                prefill: {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    contact: document.getElementById('phone').value
+                },
+                theme: {
+                    color: "#007BFF"
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+            razorpay.open();
+        }
+
+        function generateQRCode(name, email, phone, museum, visitDate, indian, foreigners, totalPrice) {
+            const qrData = `Ticket Number: ${uniqueTicketNumber}
+                            Name: ${name}
+                            Email: ${email}
+                            Phone: ${phone}
+                            Museum: ${museum}
+                            Date: ${visitDate}
+                            Indians: ${indian}
+                            Foreigners: ${foreigners}
+                            Total Price: ₹${totalPrice}
+                            Payment ID: ${paymentId}`;
+
+            QRCode.toDataURL(qrData, function (error, url) {
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+
+                qrCodeUrl = url;
+                displayTicketDetails();
+                sendEmail(name, email, phone, museum, visitDate, indian, foreigners, totalPrice);
+            });
+        }
+
+        function displayTicketDetails() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const museum = document.getElementById('museum').value;
+            const visitDate = document.getElementById('visitDate').value;
+            const indian = document.getElementById('indian').value;
+            const foreigners = document.getElementById('foreigners').value;
+            const totalPrice = document.getElementById('totalPrice').textContent;
+
+            // Display ticket details in the ticket details section
+            document.getElementById('ticketName').textContent = name;
+            document.getElementById('ticketEmail').textContent = email;
+            document.getElementById('ticketPhone').textContent = phone;
+            document.getElementById('ticketMuseum').textContent = museum;
+            document.getElementById('ticketVisitDate').textContent = visitDate;
+            document.getElementById('ticketIndian').textContent = indian;
+            document.getElementById('ticketForeigners').textContent = foreigners;
+            document.getElementById('ticketPrice').textContent = totalPrice;
+            document.getElementById('ticketPaymentId').textContent = paymentId;
+            document.getElementById('ticketNumber').textContent = uniqueTicketNumber; // Display ticket number
+
+            // Generate QR code for the ticket
+            const img = new Image();
+            img.src = qrCodeUrl;
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                context.drawImage(img, 0, 0);
+                document.getElementById('qrCodeCanvas').appendChild(canvas);
+            };
+
+            // Store ticket details in backend
+            storeTicketInBackend(name, email, phone, museum, visitDate, indian, foreigners, totalPrice, paymentId);
+
+            document.getElementById('ticketDetails').style.display = 'block';
+            document.getElementById('formPage').style.display = 'none';
+        }
+
+        function storeTicketInBackend(name, email, phone, museum, visitDate, indian, foreigners, totalPrice, paymentId) {
+            const ticketData = {
+                name: name,
+                email: email,
+                phone: phone,
+                museum: museum,
+                visitDate: visitDate,
+                indianTickets: indian,
+                foreignerTickets: foreigners,
+                totalPrice: totalPrice,
+                paymentId: paymentId,
+                ticketNumber: uniqueTicketNumber
+            };
+
+            // Send ticket data to Flask backend (app.py)
+            fetch('/save_ticket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(ticketData)
+            }).then(response => {
+                if (response.ok) {
+                    console.log("Ticket data saved successfully.");
+                } else {
+                    console.log("Error saving ticket data.");
+                }
+            });
+        }
+
+       function downloadPDF() {
+            const { jsPDF } = window.jspdf;  // Initialize jsPDF
+
+            const doc = new jsPDF();
+            const ticketDetails = {
+                ticketNumber: document.getElementById('ticketNumber').textContent,
+                name: document.getElementById('ticketName').textContent,
+                email: document.getElementById('ticketEmail').textContent,
+                phone: document.getElementById('ticketPhone').textContent,
+                museum: document.getElementById('ticketMuseum').textContent,
+                date: document.getElementById('ticketVisitDate').textContent,
+                indian: document.getElementById('ticketIndian').textContent,
+                foreigner: document.getElementById('ticketForeigners').textContent,
+                price: document.getElementById('ticketPrice').textContent,
+                paymentId: document.getElementById('ticketPaymentId').textContent
+            };
+
+            // Add text to the PDF
+            doc.text(`Ticket Number: ${ticketDetails.ticketNumber}`, 10, 10);
+            doc.text(`Name: ${ticketDetails.name}`, 10, 20);
+            doc.text(`Email: ${ticketDetails.email}`, 10, 30);
+            doc.text(`Phone: ${ticketDetails.phone}`, 10, 40);
+            doc.text(`Museum: ${ticketDetails.museum}`, 10, 50);
+            doc.text(`Date: ${ticketDetails.date}`, 10, 60);
+            doc.text(`Indian Tickets: ${ticketDetails.indian}`, 10, 70);
+            doc.text(`Foreigner Tickets: ${ticketDetails.foreigner}`, 10, 80);
+            doc.text(`Total Price: ₹${ticketDetails.price}`, 10, 90);
+            doc.text(`Payment ID: ${ticketDetails.paymentId}`, 10, 100);
+
+            // Add the QR code image to the PDF
+            doc.addImage(qrCodeUrl, 'PNG', 10, 110, 50, 50);  // Assuming qrCodeUrl contains a valid image URL
+
+            // Save the PDF
+            doc.save('ticket.pdf');
+        }
+    </script>
+</body>
+
+</html>

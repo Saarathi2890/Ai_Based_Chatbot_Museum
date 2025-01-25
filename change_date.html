@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Ticket Date</title>
+</head>
+<body>
+    <h1>Change Ticket Date</h1>
+    <form action="/change_date" method="post">
+        <label for="ticket_number">Ticket Number:</label>
+        <input type="text" id="ticket_number" name="ticket_number" required><br><br>
+        
+        <label for="new_date">New Date:</label>
+        <input type="date" id="new_date" name="new_date" required><br><br>
+        
+        <button type="submit">Change Date</button>
+    </form>
+</body>
+</html>

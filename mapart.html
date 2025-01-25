@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Museum Timings and Information</title>
+</head>
+<style>
+/* Chatbot Styles */
+        #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+#user-input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#send-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 40px; /* Increased padding for horizontal size */
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 30%; /* Alternatively, specify a width percentage or fixed width */
+}
+
+    </style>
+
+<body style="font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px;">
+
+    <!-- Museum Map -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="mapart.jpeg" alt="Indian Museum Map" style="width: 80%; height: auto; border: 5px solid #FF9933;">
+    </div>
+
+    <!-- Open Timings Box -->
+    <div style="background-color: #ffffff; padding: 20px; margin-bottom: 20px; border: 5px solid #FF9933; border-radius: 10px;">
+        <h3 style="text-align: center; color: #138808;">OPEN</h3>
+        <p style="text-align: center; font-size: 18px;">TUESDAY TO SUNDAY<br>10:00 AM TO 6:00 PM</p>
+    </div>
+
+    <!-- Closed Timings Box -->
+    <div style="background-color: #ffffff; padding: 20px; margin-bottom: 20px; border: 5px solid #138808; border-radius: 10px;">
+        <h3 style="text-align: center; color: #FF9933;">CLOSED FOR THE VISITORS</h3>
+        <p style="font-size: 16px; text-align: center;">
+            Galleries of Indian Museum Kolkata are closed on all Mondays and National Holidays.
+        </p>
+    </div>
+
+    <!-- Address Box -->
+    <div style="background-color: #ffffff; padding: 20px; border: 5px solid #0000FF; border-radius: 10px;">
+        <h3 style="text-align: center; color: #0000FF;">ADDRESS</h3>
+        <p style="text-align: center; font-size: 18px;">
+            Jaipur House, Shershah Rd,<br>
+          near India Gate, Delhi High Court, India Gate,<br>
+            New Delhi, Delhi 110003
+        </p>
+    </div>
+<button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to Museum
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to The National Gallery of Modern Art! How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+
+
+</body>
+</html>

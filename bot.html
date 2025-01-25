@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    #map {
+      height: 80vh;
+      width: 50vw;
+    }
+  </style>
+</head>
+<body>
+  <h1>Importing Map</h1>
+  <button id="showPlaces">Show Places</button>
+  <button id="showRoute">Show Nearest Route</button>
+  <div id="map"></div>
+  <script>
+    let map;
+    let userLocation = null;
+    let directionsService, directionsRenderer;
+    let bounds;
+    let allMarkers = [];
+    let infoWindow;  // For displaying distance and time
+    let routePolyline; // For handling route polyline
+    let activeMarker = null;  // Track the currently active marker
+    let routeInfoWindowOpen = false; // Track if the route info window is open
+    function initMap() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+            fetch('../json files/Site-Data.json')
+              .then(response => response.json())
+              .then(sitesData => {
+                const allLocations = [
+                  userLocation, // Include user's location
+                  ...sitesData.museums.map(museum => ({
+                    lat: parseFloat(museum.ltd),
+                    lng: parseFloat(museum.lng),
+                    siteName: museum.name,
+                    state: museum.state,
+                    imageUrl: museum.imageURL // Use image URL from JSON
+                  }))
+                ];
+                bounds = new google.maps.LatLngBounds();
+                allLocations.forEach(location => {
+                  bounds.extend(new google.maps.LatLng(location.lat, location.lng));
+                });
+                map = new google.maps.Map(document.getElementById("map"), {
+                  center: bounds.getCenter(),
+                  zoom: 12,
+                  mapId: "665230ae23208f1e",
+                });
+                directionsService = new google.maps.DirectionsService();
+                directionsRenderer = new google.maps.DirectionsRenderer({
+                  map: map,
+                  suppressMarkers: true,  // Prevents default markers from being shown
+                  polylineOptions: {
+                    strokeColor: "blue",        // Main route color
+                    strokeWeight: 5,            // Main route thickness
+                    strokeOpacity: 1.0,         // Fully opaque
+                  },
+                });
+                const icon = {
+                  url: "/icons/home icon.png", // Custom image for user's location
+                  scaledSize: new google.maps.Size(50, 50),
+                };
+                const userMarker = new google.maps.Marker({
+                  position: userLocation,
+                  map: map,
+                  icon: icon,
+                  title: "You are here!",
+                });
+                allMarkers.push(userMarker);
+                infoWindow = new google.maps.InfoWindow();
+                let nearestMuseum = null;
+                let nearestDistance = Infinity;
+                sitesData.museums.forEach(museum => {
+                  const marker = new google.maps.Marker({
+                    position: { lat: parseFloat(museum.ltd), lng: parseFloat(museum.lng) },
+                    map: map,
+                    title: `${museum.name}, (${museum.state})`,
+                  });
+                  allMarkers.push(marker);
+                  const contentString = `
+                    <div style="width: 200px;">
+                      <img src="${museum.imageURL}" alt="${museum.name}" style="width: 100%; height: auto;">
+                      <h3>${museum.name}</h3>
+                      <p><b>${museum.state}</b></p>
+                    </div>
+                  `;
+                  // Add click event listener to each marker to calculate and display route
+                  marker.addListener('click', (event) => {
+                    if (activeMarker && activeMarker !== marker) {
+                      infoWindow.close();
+                    }
+                    infoWindow.setContent(contentString);
+                    infoWindow.open(map, marker);
+                    activeMarker = marker;
+                    calculateAndDisplayRoute(userLocation, { lat: parseFloat(museum.ltd), lng: parseFloat(museum.lng) });
+                  });
+                  // Add mouseover event listener to show info on hover
+                  marker.addListener('mouseover', () => {
+                    if (activeMarker !== marker) {
+                      infoWindow.setContent(contentString);
+                      infoWindow.open(map, marker);
+                    }
+                  });
+                  // Hide info window on mouseout
+                  marker.addListener('mouseout', () => {
+                    if (activeMarker !== marker) {
+                      infoWindow.close();
+                    }
+                  });
+                  const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                    new google.maps.LatLng(userLocation.lat, userLocation.lng),
+                    new google.maps.LatLng(museum.ltd, museum.lng)
+                  );
+                  if (distance < nearestDistance) {
+                    nearestDistance = distance;
+                    nearestMuseum = { lat: parseFloat(museum.ltd), lng: parseFloat(museum.lng) };
+                  }
+                });
+                if (nearestMuseum) {
+                  calculateAndDisplayRoute(userLocation, nearestMuseum);
+                }
+                map.fitBounds(bounds);
+                // Show Places button functionality
+                document.getElementById("showPlaces").addEventListener("click", () => {
+                  const allBounds = new google.maps.LatLngBounds();
+                  allMarkers.forEach(marker => allBounds.extend(marker.getPosition()));
+                  map.fitBounds(allBounds);
+                });
+                // Show Route button functionality
+                document.getElementById("showRoute").addEventListener("click", () => {
+                  if (directionsRenderer.getDirections()) {
+                    const routeBounds = new google.maps.LatLngBounds();
+                    const route = directionsRenderer.getDirections().routes[0];
+                    route.legs.forEach(leg => {
+                      routeBounds.extend(leg.start_location);
+                      routeBounds.extend(leg.end_location);
+                    });
+                    map.fitBounds(routeBounds);
+                  }
+                });
+                // Close info window when clicking anywhere else on the map
+                google.maps.event.addListener(map, 'click', (event) => {
+                  if (infoWindow && !routeInfoWindowOpen) {
+                    infoWindow.close();
+                    activeMarker = null;
+                  }
+                });
+              })
+              .catch(error => {
+                console.error('Error fetching JSON data:', error);
+                alert('Failed to fetch site data. Check console for details.');
+              });
+          },
+          (error) => {
+            console.error("Error getting location: ", error);
+            alert("Unable to retrieve your location.");
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+    function calculateAndDisplayRoute(source, destination) {
+      directionsService.route(
+        {
+          origin: source,
+          destination: destination,
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (response, status) => {
+          if (status === "OK") {
+            directionsRenderer.setDirections(response);
+            createRoutePolyline(response);  // Create custom polyline for events
+          } else {
+            alert("Directions request failed due to " + status);
+          }
+        }
+      );
+    }
+    function createRoutePolyline(response) {
+      if (routePolyline) {
+        routePolyline.setMap(null);  // Remove existing polyline if any
+      }
+      const route = response.routes[0];
+      const path = route.overview_path;
+      routePolyline = new google.maps.Polyline({
+        path: path,
+        strokeColor: "blue",
+        strokeOpacity: 0.8,
+        strokeWeight: 5,
+        map: map,
+      });
+      const leg = route.legs[0];
+      const distance = leg.distance.text;
+      const duration = leg.duration.text;
+      const routeInfo = `
+        <div>
+          <p>Distance: ${distance}</p>
+          <p>Estimated time: ${duration}</p>
+        </div>
+      `;
+      // Set event listener to show info when clicking on the polyline
+      google.maps.event.addListener(routePolyline, 'click', (event) => {
+        if (routePolyline) {
+          infoWindow.setContent(routeInfo);
+          infoWindow.setPosition(event.latLng);
+          infoWindow.open(map);
+          routeInfoWindowOpen = true; // Mark that route info window is open
+        }
+      });
+      // Set event listener to hide info window when clicking elsewhere
+      google.maps.event.addListener(map, 'click', () => {
+        if (infoWindow && routeInfoWindowOpen) {
+          infoWindow.close();
+          routeInfoWindowOpen = false; // Mark that route info window is closed
+        }
+      });
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqiqkSiDxxMRmiORpUaNiQawO6WR-tnAU&libraries=places,geometry&callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key="YOUR-API-KEY"&libraries=places,geometry&callback=initMap" async defer></script>
+</body>
+</html>

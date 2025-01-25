@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Indian Museum</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+/* Chatbot Styles */
+        #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+#user-input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#send-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 40px; /* Increased padding for horizontal size */
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 30%; /* Alternatively, specify a width percentage or fixed width */
+}
+
+    </style>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="title">
+            <h1>The Indian Museum</h1>
+        </div>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="timing.html">Map & Time</a></li>
+                <li><a href="http://127.0.0.1:5000">BOOK NOW</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Video Section -->
+    <div class="video-section">
+        <video autoplay muted controls>
+            <source src="museum.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <!-- Content Section -->
+    <section id="about-us" class="content-section">
+        <h2>Highlights</h2>
+        <ul class="highlight-list">
+            <li>The Indian Museum in Kolkata, India is one of the oldest and largest museums in the country.</li>
+            <li>It's known for its extensive collection of over 100,000 artifacts and art, including antiques, armor, ornaments, fossils, skeletons, mummies, and Mughal paintings.</li>
+            <li>The museum's collections depict India's cultural history from prehistoric times to the Muslim era, with detailed presentations that make every visit enriching.</li>
+            <li>The museum also has live performances, a restaurant, and a wheelchair accessible entrance.</li>
+            <li>It has rare collections of antiques, armor and ornaments, fossils, skeletons, mummies, and Mughal paintings.</li>
+        </ul>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 The Indian Museum. All rights reserved.</p>
+    </footer>
+
+    <button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to Museum
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to  The Indian Museum How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+</body>
+</html>

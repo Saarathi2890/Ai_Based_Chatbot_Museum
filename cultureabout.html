@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Ministry of Culture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #002663;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #0055A5;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .navbar a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .main-content h2 {
+            color: #002663;
+        }
+
+        .main-content p {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .content-section {
+            margin-top: 20px;
+        }
+
+        .footer {
+            background-color: #002663;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+     #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        #user-input {
+            width: calc(100% - 110px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #send-button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 40px;
+            /* Increased padding for horizontal size */
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            width: 30%;
+            /* Alternatively, specify a width percentage or fixed width */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>About Museums, India</h1>
+    </div>
+
+    <!-- Navigation Bar -->
+   
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>About Us</h2>
+        <p>Overview of India’s rich cultural and historical heritage.</p>
+        <p>Importance of museums in preserving and showcasing this heritage</p>
+        <p>Brief mention of the diversity of museums in India</p>
+       
+
+        <div class="content-section">
+            <h3>Importance of Museums</h3>
+            <p>Role in education and awareness.</p>
+            <p>Preservation of cultural heritage and artifacts.</p>
+            <p>Promoting tourism and local economies.</p>
+        </div>
+
+        <div class="content-section">
+            <h3>Types of Museums in India</h3>
+            <p>Historical Museums</p>
+            <p>Art Museums and Galleries</p>
+            <p>Science and Technology Museum</p>
+            <p>Cultural and Tribal Museums</p>
+            <p>Specialized Museums</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Ministry of Culture, Government of India</p>
+    </div>
+
+     <button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to MUseum
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to the Museum In India! How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+</body>
+
+</html>

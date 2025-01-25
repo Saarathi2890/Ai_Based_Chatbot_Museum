@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Gallery of Modern Art</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FF9933;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+        nav {
+            background-color: #444;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .about-section {
+            padding: 20px;
+        }
+        .about-section h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 32%;
+            border-radius: 5px;
+        }
+        .about-content {
+            text-align: justify;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        footer {
+            background-color: #FF9933;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+/* Chatbot Styles */
+        #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+#user-input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#send-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 40px; /* Increased padding for horizontal size */
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 30%; /* Alternatively, specify a width percentage or fixed width */
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>National Gallery of Modern Art</h1>
+</header>
+
+
+<section id="about" class="about-section">
+    <h1>About NGMA</h1>
+    <div class="image-container">
+        <img src="about1.jpg" alt="NGMA Image 1">
+        <img src="about2.jpg" alt="NGMA Image 2">
+        <img src="about3.jpg" alt="NGMA Image 3">
+    </div>
+    <div class="about-content">
+        <p>
+            The National Gallery of Modern Art is India’s premier art institution for modern and contemporary Indian art.
+            The museum was established in 1954 with the singular aim of promoting and preserving modern Indian art. Its
+            vast collection chronicles the trajectory of art in India from mid-18th century to the present.
+        </p>
+        <p>
+            NGMA is spread over eight acres of prime space in the heart of New Delhi at the prestigious India Gate
+            Hexagon. The collection is showcased in Jaipur House, the former palace of the Maharaja of Jaipur. The regal
+            ambience of the heritage structure offers a befitting backdrop for the masterpieces on display while
+            sprawling green lawns and courtyards offer a ready stage for a sculpture garden. The new wing constructed in
+            2009 increased display area with new gallery floors, an art shop, auditorium, preview theatre and library.
+        </p>
+        <p>
+            The success of NGMA as a cultural hub has led to the establishment of regional centres in Mumbai and
+            Bengaluru. Here the emphasis is on artistic innovation and promoting excellence in the field of art and
+            curatorial practices. Indigenous art and culture is given special focus as it is believed to be vital in
+            reshaping the cultural landscape of the nation.
+        </p>
+    </div>
+</section>
+
+<footer>
+    &copy; 2024 National Gallery of Modern Art. All Rights Reserved.
+</footer>
+<button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to Museum
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to The National Gallery of Modern Art! How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry of Culture</title>
+    <style>
+        /* Chatbot Styles */
+        #chatbot-container {
+            display: none;
+            border: 1px solid #ccc;
+            width: 300px;
+            height: 400px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        #chatbot-header {
+            background-color: #0047ab;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            position: relative;
+        }
+
+        #close-chatbot {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+        }
+
+        .bot-message {
+            background-color: #e0e0e0;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .user-message {
+            background-color: #d1e7dd;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .option-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .option-button:hover {
+            background-color: #0056b3;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #send-button {
+            width: 18%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        #chatbot-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        #user-input {
+            width: calc(100% - 110px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        #send-button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 40px;
+            /* Increased padding for horizontal size */
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            width: 30%;
+            /* Alternatively, specify a width percentage or fixed width */
+        }
+    </style>
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
+
+    <!-- Header -->
+    <div style="background-color: #002663; color: white; padding: 10px 0; text-align: center;">
+        <h1 style="margin: 0;">Museums</h1>
+        <p style="margin: 5px 0;">Explore Yesterday, Today</p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div style="background-color: #0055A5; padding: 10px 0;">
+        <nav style="text-align: center;">
+            <a href="cultureabout.html" style="color: white; margin: 0 15px; text-decoration: none;">About Us</a>
+            <a href="museum.html" style="color: white; margin: 0 15px; text-decoration: none;">Museum</a>
+            <a href="#" style="color: white; margin: 0 15px; text-decoration: none;">Contact Us</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding: 20px;">
+        <h2>Explore Museums In India</h2>
+        <p>Embark on a captivating journey through India's rich heritage by exploring its diverse museums, where history, art, and
+        culture come alive in every corner.</p>
+
+        <!-- Images of Ministry and Deputy Minister -->
+        <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+            <div style="text-align: center;">
+                <img src="src1.jpg" alt="Minister of Culture"
+                    style="width: 150px; height: 200px; border: 2px solid #002663;">
+                <p style="margin-top: 10px;">Ekamukha linga,early Gupta period,</p>
+                <p style="margin-top: 10px;">Kosambi, either 4th or 5th century A. D.</p>
+            </div>
+            <div style="text-align: center;">
+                <img src="src2.jpg" alt="Deputy Minister of Culture"
+                    style="width: 150px; height: 200px; border: 2px solid #002663;">
+                <p style="margin-top: 10px;">MADHUBANI</p>
+                <p style="margin-top: 10px;">Forest of honey</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <!-- Left Column -->
+            <div style="width: 65%;">
+                <h3>Latest Updates</h3>
+                <p>Get the latest news and updates on our cultural initiatives and events.</p>
+            </div>
+
+            <!-- Right Column -->
+            <div style="width: 30%; background-color: #f1f1f1; padding: 10px;">
+                <h3>Important Links</h3>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li><a href="#" style="text-decoration: none; color: #002663;">Cultural Events</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #002663;">Archives</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #002663;">Schemes and Programs</a></li>
+                    <li><a href="#" style="text-decoration: none; color: #002663;">E-Books</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background-color: #002663; color: white; text-align: center; padding: 10px 0;">
+        <p style="margin: 0;">&copy; 2024 Ministry of Culture, Government of India</p>
+    </div>
+
+    <button id="chatbot-button">Chat with Us</button>
+    <div id="chatbot-container">
+        <div id="chatbot-header">
+            Welcome to Museum In India
+            <button id="close-chatbot">&times;</button>
+        </div>
+        <div id="chatbot-messages">
+            <div class="bot-message">Welcome to the Museum In India! How can we assist you today?</div>
+        </div>
+        <div style="display: flex; align-items: center; padding: 10px;">
+            <input id="user-input" type="text" placeholder="Type your question...">
+            <button id="send-button">Send</button>
+            <button id="voice-button">🎤</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+</body>
+
+</html>

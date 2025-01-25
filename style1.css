@@ -1,0 +1,109 @@
+
+/* Header styles */
+.header {
+    background-color: #FF9933; /* Saffron */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed; /* Ensure header stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure header is above other content */
+}
+
+/* Background image */
+.background-image {
+    background-image: url('chat.jpg');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 60px; /* Directly below the header */
+    bottom: 0; /* Fit the image to the bottom of the screen */
+    width: 100%;
+    height: calc(100vh - 60px); /* Full height minus header */
+    z-index: 1; /* Place the background image behind other elements */
+}
+
+/* Chat box styles */
+.chat-box {
+    background: transparent; /* Remove background color */
+    border: none; /* Remove border */
+    bottom: 0;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    margin: 0; /* Remove margin */
+    box-shadow: none; /* Remove box shadow */
+    z-index: 2; /* Ensure chat box elements are above background image */
+    position: relative; /* Needed for positioning dropdown */
+}
+
+/* Chat log styles */
+.chat-log {
+    background: transparent; /* Remove background color */
+    padding: 10px;
+    font-size: 1.5em; /* Large text size */
+    height: calc(100vh - 180px); /* Full height minus header and text box */
+    overflow-y: auto; /* Add scroll if content exceeds height */
+    z-index: 2; /* Ensure chat log is above background image */
+}
+
+/* Text input styles */
+.chat-box input[type="text"] {
+    border: 2px solid #ff9933; /* Saffron */
+    border-radius: 10px;
+    padding: 10px;
+    width: 80%;
+    outline-color: #138808; /* Green */
+    border-image: linear-gradient(to right, #ff9933, #ffffff, #138808) 1;
+    background: transparent; /* Make the input background transparent */
+    color: black; /* Make text black for better contrast */
+    position: relative; /* Position relative for the dropdown to position correctly */
+}
+
+/* Button styles */
+.chat-box button[type="button"] {
+    background-color: #000000;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    padding: 10px;
+    width: 15%;
+    cursor: pointer;
+}
+
+.chat-box button[type="button"]:hover {
+    background-color: #444;
+}
+
+/* User and bot message styles */
+.chat-log .user, .chat-log .bot {
+    margin-bottom: 10px; /* Add space between messages */
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat-log .user {
+    background-color: #138808; /* Green */
+    color: white;
+    text-align: right; /* Align user messages to the right */
+}
+
+.chat-log .bot {
+    background-color: #ff9933; /* Saffron */
+    color: white;
+    text-align: left; /* Align bot messages to the left */
+}
+
+/* Dropdown styles */
+#question-dropdown {
+    border: 2px solid #ff9933; /* Saffron */
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    outline-color: #138808; /* Green */
+    background-color: white; /* Dropdown background color */
+    color: black; /* Dropdown text color */
+    margin-top: 10px; /* Add some space between the dropdown and the chat box */
+}
